@@ -34,7 +34,7 @@
         // Method 2: Parse from script tags
         try {
             const scripts = document.querySelectorAll('script[type="application/json"], script');
-
+            
             for (const script of scripts) {
                 const content = script.textContent;
                 if (content.includes('userId') || content.includes('userid')) {
@@ -43,7 +43,7 @@
                     if (userIdMatch) {
                         return userIdMatch[1];
                     }
-
+                    
                     // Try lowercase pattern
                     const lowerMatch = content.match(/"userid":\s*"([^"]+)"/i);
                     if (lowerMatch) {
@@ -70,16 +70,15 @@
 
     // Create and inject the button
     function injectButton() {
-        // Try to find "See all ### photos" button first
-        let photoButton = document.querySelector('a[href*="/biz_photos/"][class*="y-css-"]');
-
-        // If not found, try "Add photo or video" button
-        if (!photoButton) {
-            photoButton = document.querySelector('a[href^="/biz_user_photos/"]');
+        // Find the photo-header-buttons container
+        const container = document.querySelector('div[class*="photo-header-buttons"]');
+        
+        if (!container) {
+            return false;
         }
 
         // Check if we already injected
-        if (photoButton.parentElement.querySelector('[data-my-photos-btn]')) {
+        if (container.querySelector('[data-my-photos-btn]')) {
             return true;
         }
 
@@ -94,25 +93,30 @@
         }
 
         try {
-            // Clone the parent span element
-            const parentSpan = photoButton.parentElement;
-            const newSpan = parentSpan.cloneNode(true);
-
-            // Update the cloned link
+            // Find any existing button span to clone its structure
+            const existingSpan = container.querySelector('span[class*="y-css-"]');
+            if (!existingSpan) {
+                console.error('Yelp My Photos: Could not find button structure to clone');
+                return false;
+            }
+            
+            // Clone the span
+            const newSpan = existingSpan.cloneNode(true);
+            
+            // Update the link
             const newLink = newSpan.querySelector('a');
             newLink.href = `/biz_photos/${businessAlias}?userid=${userId}`;
             newLink.setAttribute('data-my-photos-btn', 'true');
-
+            
             // Update the text
             const textSpan = newLink.querySelector('span[class*="y-css-"]');
             if (textSpan) {
                 textSpan.textContent = 'See my photos';
-            } else {
-                console.warn('Yelp My Photos: Could not find text span to update button label');
             }
 
-            // Insert BEFORE the original button (to the left)
-            parentSpan.parentElement.insertBefore(newSpan, parentSpan);
+            // Insert at the beginning of the container (to the left)
+            container.insertBefore(newSpan, container.firstChild);
+            
             return true;
         } catch (e) {
             console.error('Yelp My Photos: Failed to inject "See my photos" button -', e);
