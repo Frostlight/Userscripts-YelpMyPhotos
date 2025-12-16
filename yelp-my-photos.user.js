@@ -3,6 +3,11 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Adds "See my photos" button next to "See all ### photos" on Yelp business pages
+// @license      MIT; https://spdx.org/licenses/MIT.html
+// @copyright	 2025, Frostlight (https://openuserjs.org/users/Frostlight)
+// @icon         https://raw.githubusercontent.com/Frostlight/Userscripts-YelpMyPhotos/master/icon.ico
+// @homepageURL  https://github.com/Frostlight
+// @supportURL   mailto:frostlight@users.noreply.github.com
 // @match        https://www.yelp.ca/biz/*
 // @match        https://www.yelp.com/biz/*
 // @grant        none
