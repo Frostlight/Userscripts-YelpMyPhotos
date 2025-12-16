@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Yelp Biz – See My Photos Button
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  Adds "See my photos" button next to "See all ### photos" on Yelp business pages
 // @license      MIT; https://spdx.org/licenses/MIT.html
 // @copyright    2025, Frostlight (https://openuserjs.org/users/Frostlight)
