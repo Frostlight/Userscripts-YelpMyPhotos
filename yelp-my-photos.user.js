@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Yelp Biz – See My Photos Button
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.2
 // @description  Adds "See my photos" button next to "See all ### photos" on Yelp business pages
 // @license      MIT; https://spdx.org/licenses/MIT.html
-// @copyright	 2025, Frostlight (https://openuserjs.org/users/Frostlight)
+// @copyright    2025, Frostlight (https://openuserjs.org/users/Frostlight)
 // @icon         https://raw.githubusercontent.com/Frostlight/Userscripts-YelpMyPhotos/master/icon.png
 // @homepageURL  https://github.com/Frostlight
 // @supportURL   mailto:frostlight@users.noreply.github.com
@@ -70,10 +70,12 @@
 
     // Create and inject the button
     function injectButton() {
-        // Find the "See all ### photos" button
-        const photoButton = document.querySelector('a[href*="/biz_photos/"][class*="y-css-"]');
+        // Try to find "See all ### photos" button first
+        let photoButton = document.querySelector('a[href*="/biz_photos/"][class*="y-css-"]');
+
+        // If not found, try "Add photo or video" button
         if (!photoButton) {
-            return false;
+            photoButton = document.querySelector('a[href^="/biz_user_photos/"]');
         }
 
         // Check if we already injected
